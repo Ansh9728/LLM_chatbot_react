@@ -36,3 +36,143 @@
     transform: rotate(360deg);
   }
 }
+
+/* Navbar Brand style*/
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold; 
+  color: #fff; 
+  margin-right: 1rem; 
+  padding: 0.5rem 1rem; 
+  text-decoration: none; 
+}
+
+.navbar-brand:hover {
+  color: rgba(255, 255, 255, 0.7); /* Example hover color */
+}
+
+
+/* Navbar Brand style END*/
+
+/* Navbar Brand Focus Effect */
+.navbar-brand:focus {
+  outline: none; /* Remove focus outline */
+}
+
+.navbar {
+  font-size: 1rem;
+  background-color: #d5dce8;
+}
+
+.navbar-dark {
+  background-color: #8a939b; 
+  color: white; /*  text color*/
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+
+/* Navbar style start */
+.navbar-nav {
+  display: flex; /* Use flexbox layout */
+  justify-content: center; /* Center align navbar links */
+  list-style-type: None;
+}
+
+/* Navbar Links */
+.navbar-nav .nav-link {
+  padding: 0.5rem 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.3s ease-in-out;
+}
+
+
+/* Navbar Collapse */
+.navbar-collapse {
+  justify-content: center;
+}
+
+/* Navbar Links Hover Effect */
+.navbar-nav .nav-link:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Navbar style END */
+
+
+/* main content style start */
+
+.container {
+  display: flex; /* Use flexbox layout */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 80vh; 
+}
+
+/* Form inside Main Container */
+.form {
+  width: 80%;
+  max-width: 400px
+}
+
+.form-container {
+  width: 80%; /* Example width */
+  max-width: 400px; /* Example max-width */
+  display: flex; /* Use flexbox layout */
+  flex-direction: column; /* Arrange children vertically */
+}
+
+
+/* Question Label */
+.questionLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  align-items: center;
+}
+
+/* Question Input */
+.questionInput {
+  width: 100%;
+  padding: 0.5rem; 
+  margin-bottom: 1rem; 
+  font-size: 1rem; 
+}
+/* File Label */
+.fileLabel {
+  display: block;
+  margin-bottom: 0.6rem; 
+}
+
+/* File Input */
+.fileInput {
+  margin-bottom: 1rem; 
+}
+
+/* File Uploaded Message */
+.fileUploadedMessage {
+  color: green; /* Example color for success message */
+  font-weight: bold; /* Example font weight for emphasis */
+  margin-bottom: 1rem; /* Example margin-bottom for spacing */
+}
+
+/* Submit Button */
+.submitBtn {
+  padding: 0.5rem 1rem; /* Example padding */
+  background-color: #007bff; /* Example background color */
+  color: #fff; /* Example text color */
+  border: none; /* Remove border */
+  cursor: pointer; /* Show pointer on hover */
+}
+
+/* Submit Button Hover Effect */
+.submitBtn:hover {
+  background-color: #0056b3; /* Example hover background color */
+}
+
+/* Result Output */
+.resultOutput {
+  margin-top: 3rem; 
+}
