@@ -119,10 +119,10 @@
 }
 
 .form-container {
-  width: 80%; /* Example width */
-  max-width: 400px; /* Example max-width */
-  display: flex; /* Use flexbox layout */
-  flex-direction: column; /* Arrange children vertically */
+  width: 80%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -153,23 +153,23 @@
 
 /* File Uploaded Message */
 .fileUploadedMessage {
-  color: green; /* Example color for success message */
-  font-weight: bold; /* Example font weight for emphasis */
-  margin-bottom: 1rem; /* Example margin-bottom for spacing */
+  color: green; 
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
 /* Submit Button */
 .submitBtn {
-  padding: 0.5rem 1rem; /* Example padding */
-  background-color: #007bff; /* Example background color */
-  color: #fff; /* Example text color */
-  border: none; /* Remove border */
-  cursor: pointer; /* Show pointer on hover */
+  padding: 0.5rem 1rem; 
+  background-color: #007bff; 
+  color: #fff; 
+  border: none;
+  cursor: pointer; 
 }
 
 /* Submit Button Hover Effect */
 .submitBtn:hover {
-  background-color: #0056b3; /* Example hover background color */
+  background-color: #0056b3;
 }
 
 /* Result Output */
