@@ -8,24 +8,8 @@ from PyPDF2 import PdfReader
 from fastapi import UploadFile, HTTPException
 from docx2python import docx2python
 import requests
+import docx
 
-# Define a function to process with the language model
-# def process_with_llm(file_content: str, question: str) -> str:
-#     try:
-#         response = openai.ChatCompletion.create(
-#             model="gpt-3.5-turbo",
-#             messages=[
-#                 {"role": "system", "content": "You are a chatbot."},
-#                 {"role": "user", "content": question},
-#                 {"role": "assistant", "content": file_content},
-#             ],
-#             max_tokens=150,
-#             temperature=0.7
-#         )
-#         return response['choices'][0].message.content
-#     except openai.OpenAIError as e:
-#         print('error is ',e)
-#         raise HTTPException(status_code=500, detail="An error occurred while generating the Chatbot response.")
 API_Token = ''
 API_URL = "https://api-inference.huggingface.co/models/openai-community/gpt2"
 headers = {"Authorization": f"Bearer {API_Token}"}
@@ -61,8 +45,19 @@ def read_pdf(file_path):
     return file_content
 
 
-def read_text_doc(file_path):
-    file_content = docx2python(file_path)
+def read_docx(file_path):
+    doc = docx.Document(file_path)
+    fullText = []
+    for para in doc.paragraphs:
+        fullText.append(para.text)
+    file_content = '\n'.join(fullText)
+    return file_content
+
+
+def read_txt(file_path):
+    with open(file_path, 'r') as f:
+        file_content = f.read()
+
     return file_content
 
 
@@ -88,8 +83,10 @@ def process_input_file(file: UploadFile) -> str:
    
         if file.filename.endswith(".pdf"):
             file_content = read_pdf(file_path=temp_file_path)
-        elif file.filename.endswith((".txt", ".docx")):
-            file_content = read_text_doc(temp_file_path)
+        elif file.filename.endswith(".docx"):
+            file_content = read_docx(temp_file_path)
+        elif file.filename.endswith(".txt"):
+            file_content = read_txt(temp_file_path)
 
         print("File content:", file_content)
             
