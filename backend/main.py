@@ -48,7 +48,7 @@ def predict(file: UploadFile = File(...), question: str = Form(...)) -> Any:
         
     file_content = process_input_file(file)
     
-    print("File_contetn",file_content)
+    # print("File_contetn",file_content)
         
     result = str(process_with_llm(file_content, question))
     # result = f"Processed {file.filename} with question: {question}"

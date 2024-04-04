@@ -9,10 +9,13 @@ from fastapi import UploadFile, HTTPException
 from docx2python import docx2python
 import requests
 import docx
+from dotenv import load_dotenv
 
-API_Token = ''
-API_URL = "https://api-inference.huggingface.co/models/openai-community/gpt2"
-headers = {"Authorization": f"Bearer {API_Token}"}
+load_dotenv()
+
+API_Access_Token = os.getenv('HF_ACCESS_TOKEN')
+API_URL = "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill"
+headers = {"Authorization": f"Bearer {API_Access_Token}"}
 
 def load_llm_model(prompt,API_URL,headers):
     response = requests.post(API_URL, headers=headers, json=prompt)
@@ -22,9 +25,18 @@ def load_llm_model(prompt,API_URL,headers):
 def process_with_llm(file_content:str, question:str) ->str:
     try:
 
-        prompt = {
-	                "inputs": "Can you please let us know more details about your ",
-        }
+        # prompt = {
+	    #             "inputs": "Can you please let us know more details about your ",
+        # }
+        
+        prompt = ({
+
+                "role": "system", "content": "You are a friendly chatbot ",
+
+                "role": "user", "content": f"{file_content} Question : {question}",
+                
+                "role": "assistant", "content": "Your Response :",
+            })
 
         output = load_llm_model(prompt=prompt, API_URL=API_URL,headers=headers)
         print('Output ',output)
@@ -78,8 +90,6 @@ def process_input_file(file: UploadFile) -> str:
         # file_content = read_pdf(temp_file_path)
 
         print("Temporary file path:", temp_file_path)
-        print("File type is:", type(file))
-        print("File type:", file)
    
         if file.filename.endswith(".pdf"):
             file_content = read_pdf(file_path=temp_file_path)
@@ -88,7 +98,7 @@ def process_input_file(file: UploadFile) -> str:
         elif file.filename.endswith(".txt"):
             file_content = read_txt(temp_file_path)
 
-        print("File content:", file_content)
+        # print("File content:", file_content)
             
     except Exception as e:
         print('Error:', e)
