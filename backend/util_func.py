@@ -7,25 +7,47 @@ from docx import Document
 from PyPDF2 import PdfReader
 from fastapi import UploadFile, HTTPException
 from docx2python import docx2python
-
+import requests
 
 # Define a function to process with the language model
-def process_with_llm(file_content: str, question: str) -> str:
+# def process_with_llm(file_content: str, question: str) -> str:
+#     try:
+#         response = openai.ChatCompletion.create(
+#             model="gpt-3.5-turbo",
+#             messages=[
+#                 {"role": "system", "content": "You are a chatbot."},
+#                 {"role": "user", "content": question},
+#                 {"role": "assistant", "content": file_content},
+#             ],
+#             max_tokens=150,
+#             temperature=0.7
+#         )
+#         return response['choices'][0].message.content
+#     except openai.OpenAIError as e:
+#         print('error is ',e)
+#         raise HTTPException(status_code=500, detail="An error occurred while generating the Chatbot response.")
+API_Token = ''
+API_URL = "https://api-inference.huggingface.co/models/meta-llama/Llama-2-7b-chat-hf"
+headers = {"Authorization": f"Bearer {API_Token}"}
+
+def load_llm_model(prompt,API_URL,headers):
+    response = requests.post(API_URL, headers=headers, json=payload)
+    return response.json()
+
+
+def process_with_llm(file_content:str, question:str) ->str:
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a chatbot."},
-                {"role": "user", "content": question},
-                {"role": "assistant", "content": file_content},
-            ],
-            max_tokens=150,
-            temperature=0.7
-        )
-        return response['choices'][0].message.content
-    except openai.OpenAIError as e:
-        print('error is ',e)
-        raise HTTPException(status_code=500, detail="An error occurred while generating the Chatbot response.")
+
+        prompt = {
+	                "inputs": "Can you please let us know more details about your ",
+        }
+
+        output = load_llm_model(prompt=prompt, API_URL=API_URL,headers=headers)
+        print('Output ',output)
+
+    except Exception as e:
+        print("Error in llm process with llm")
+        raise HTTPException(status_code=500, detail="Error during handling the llm")
     
 
 def read_pdf(file_path):
