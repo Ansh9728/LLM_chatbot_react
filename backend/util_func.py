@@ -27,11 +27,11 @@ import requests
 #         print('error is ',e)
 #         raise HTTPException(status_code=500, detail="An error occurred while generating the Chatbot response.")
 API_Token = ''
-API_URL = "https://api-inference.huggingface.co/models/meta-llama/Llama-2-7b-chat-hf"
+API_URL = "https://api-inference.huggingface.co/models/openai-community/gpt2"
 headers = {"Authorization": f"Bearer {API_Token}"}
 
 def load_llm_model(prompt,API_URL,headers):
-    response = requests.post(API_URL, headers=headers, json=payload)
+    response = requests.post(API_URL, headers=headers, json=prompt)
     return response.json()
 
 
