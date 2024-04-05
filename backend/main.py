@@ -6,6 +6,8 @@ from typing import Any
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException
 import os
 from util_func import process_with_llm, process_input_file
+from util_func import summarize_content
+from util_func import clean_file_content
 import openai
 
 # Load environment variables from .env file (if any)
@@ -29,17 +31,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load OpenAI API key from environment
-# openai.api_key = os.getenv('OPENAI_API_KEY')
-
-# if openai.api_key is None:
-#     raise EnvironmentError("OpenAI API key is not set in the environment.")
-
-
 
 class Response(BaseModel):
     result: str | None
     
+API_Token = os.getenv('HF_ACCESS_TOKEN')    
+headers = {"Authorization": f"Bearer {API_Token}"}
+summarize_api_url="https://api-inference.huggingface.co/models/Falconsai/text_summarization"
+
 
 @app.post("/predict", response_model=Response)
 def predict(file: UploadFile = File(...), question: str = Form(...)) -> Any:
@@ -48,10 +47,27 @@ def predict(file: UploadFile = File(...), question: str = Form(...)) -> Any:
         
     file_content = process_input_file(file)
     
-    print("File_contetn",file_content)
+    file_content = clean_file_content(file_content=file_content)
+    
+    summarize_prompt = {
+        "inputs": f"{file_content}",
+        "parameters": {
+            "do_sample": False,
+            "temperature":1,
+            "max_length":1024
+            },
+    }
+    
+    try:
+        summarize_file_content = summarize_content(file_content=summarize_prompt, API_URL=summarize_api_url, headers=headers)
         
-    result = str(process_with_llm(file_content, question))
-    # result = f"Processed {file.filename} with question: {question}"
-    print(result)
-  
-    return {"result": result}
+        summarize_file_content = summarize_file_content[0]['summary_text']   
+        
+        result = process_with_llm(file_content=summarize_file_content, question=question)
+        
+        if result:
+            result = result['answer']
+            return {"result": result}
+        
+    except Exception as e:
+        return f"Error : {e}"
