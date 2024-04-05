@@ -8,7 +8,6 @@ import os
 from util_func import process_with_llm, process_input_file
 from util_func import summarize_content
 from util_func import clean_file_content
-import openai
 
 # Load environment variables from .env file (if any)
 load_dotenv()
