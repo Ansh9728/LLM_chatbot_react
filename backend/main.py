@@ -64,9 +64,12 @@ def predict(file: UploadFile = File(...), question: str = Form(...)) -> Any:
         
         result = process_with_llm(file_content=summarize_file_content, question=question)
         
-        if result:
-            result = result['answer']
-            return {"result": result}
+        result = result['answer']
         
     except Exception as e:
-        return f"Error : {e}"
+        print("Error",e)
+        result =  f"Error : {e}"
+        
+    print("res",result)
+
+    return {"result": result}

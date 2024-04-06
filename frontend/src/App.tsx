@@ -119,13 +119,19 @@ export default function App() {
             {fileUploaded && <p className="fileUploadedMessage">File Uploaded Successfully!</p>}
 
             <br></br>
-            <button
+            {/* <button
               className="submitBtn"
               type="submit"
               disabled={!file || !question}
             >
               Submit
-            </button>
+            </button> */}
+
+            {file && question && (
+              <button className="submitBtn" type="submit">
+                Submit
+              </button>
+            )}
           </form>
           <p className="resultOutput">Result: {result}</p>
           </div>
